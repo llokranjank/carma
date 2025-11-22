@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¢arma - Ethical Shopping Assistant</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1 class="logo">¢arma</h1>
+            <p class="tagline">Make shopping choices that align with your values</p>
+        </header>
+
+        <!-- Configuration Section -->
+        <section class="config-section" id="configSection">
+            <div class="config-card">
+                <h2>Setup Your Preferences</h2>
+
+                <!-- API Configuration -->
+                <div class="api-config">
+                    <h3>1. Choose Your AI Provider</h3>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="aiProvider" value="claude" checked>
+                            <span>Claude (Anthropic)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="aiProvider" value="gemini">
+                            <span>Gemini (Google)</span>
+                        </label>
+                    </div>
+
+                    <div class="api-key-input">
+                        <input type="password"
+                               id="apiKey"
+                               placeholder="Enter your API key"
+                               class="input-field">
+                        <button id="testApiBtn" class="btn-secondary">Test Connection</button>
+                    </div>
+                    <div id="apiStatus" class="status-message"></div>
+                </div>
+
+                <!-- Ethical Priorities -->
+                <div class="ethics-config">
+                    <h3>2. Select Your Ethical Priorities</h3>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="ethics" value="water_usage" checked>
+                            <span>Water Usage & Conservation</span>
+                            <small>Track water consumption in manufacturing and materials</small>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="ethics" value="energy_fossil" checked>
+                            <span>Energy & Carbon Footprint</span>
+                            <small>Monitor fossil fuel use and renewable energy adoption</small>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="ethics" value="labor_rights" checked>
+                            <span>Workers Rights & Fair Labor</span>
+                            <small>Evaluate labor conditions and fair wage practices</small>
+                        </label>
+                    </div>
+                </div>
+
+                <button id="saveConfigBtn" class="btn-primary">Save Configuration</button>
+            </div>
+        </section>
+
+        <!-- Upload Section -->
+        <section class="upload-section" id="uploadSection" style="display: none;">
+            <div class="upload-card">
+                <h2>Upload Amazon Product Screenshot</h2>
+
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-prompt">
+                        <svg class="upload-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <p>Drag & drop your screenshot here</p>
+                        <p class="upload-or">or</p>
+                        <button id="browseBtn" class="btn-secondary">Browse Files</button>
+                        <input type="file"
+                               id="fileInput"
+                               accept="image/*"
+                               style="display: none;">
+                    </div>
+
+                    <div class="preview-area" id="previewArea" style="display: none;">
+                        <img id="previewImage" alt="Screenshot preview">
+                        <button id="removeImageBtn" class="btn-remove">Remove</button>
+                    </div>
+                </div>
+
+                <button id="analyzeBtn" class="btn-primary" disabled>
+                    Analyze Product Ethics
+                </button>
+            </div>
+        </section>
+
+        <!-- Loading State -->
+        <section class="loading-section" id="loadingSection" style="display: none;">
+            <div class="loading-card">
+                <div class="spinner"></div>
+                <h2>Analyzing Product...</h2>
+                <p class="loading-step" id="loadingStep">Identifying product from screenshot...</p>
+                <div class="loading-steps">
+                    <div class="step" data-step="1">Processing Image</div>
+                    <div class="step" data-step="2">Analyzing Supply Chain</div>
+                    <div class="step" data-step="3">Evaluating Ethics</div>
+                    <div class="step" data-step="4">Checking Recent News</div>
+                    <div class="step" data-step="5">Comparing to Alternatives</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section" id="resultsSection" style="display: none;">
+            <div class="results-container">
+                <!-- Product Info -->
+                <div class="product-info-card" id="productInfo">
+                    <!-- Dynamically populated -->
+                </div>
+
+                <!-- Ethical Scores -->
+                <div class="scores-card">
+                    <h2>Ethical Evaluation</h2>
+                    <div class="score-items" id="scoreItems">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- Supply Chain Analysis -->
+                <div class="supply-chain-card">
+                    <h2>Supply Chain Breakdown</h2>
+                    <div class="supply-chain-items" id="supplyChainItems">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- Recent News -->
+                <div class="news-card">
+                    <h2>Recent News & Concerns (Last 12 Months)</h2>
+                    <div class="news-items" id="newsItems">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- Comparison -->
+                <div class="comparison-card">
+                    <h2>Compared to Category Average</h2>
+                    <div class="comparison-display" id="comparisonDisplay">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div class="summary-card">
+                    <h2>Summary</h2>
+                    <div class="pros-cons">
+                        <div class="pros" id="prosList">
+                            <h3>Pros</h3>
+                            <!-- Dynamically populated -->
+                        </div>
+                        <div class="cons" id="consList">
+                            <h3>Cons</h3>
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                    <div class="overall-rating" id="overallRating">
+                        <!-- Dynamically populated -->
+                    </div>
+                    <div class="recommendation" id="recommendation">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button id="findAlternativesBtn" class="btn-primary">
+                        Find Better Alternatives
+                    </button>
+                    <button id="newAnalysisBtn" class="btn-secondary">
+                        Analyze Another Product
+                    </button>
+                </div>
+
+                <!-- Alternatives Section -->
+                <div class="alternatives-section" id="alternativesSection" style="display: none;">
+                    <h2>Ethical Alternatives</h2>
+                    <div class="alternatives-grid" id="alternativesGrid">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/api-client.js"></script>
+    <script src="js/ui-controller.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
